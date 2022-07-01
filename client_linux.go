@@ -142,29 +142,14 @@ func (c *client) ScanAPs(ifi *Interface) ([]*BSS, error) {
 		return nil, err
 	}
 
-	nestedAttrs, err := netlink.MarshalAttributes([]netlink.Attribute{
-		{
-			Type:   nl80211.SchedScanMatchAttrSsid,
-			Length: 0,
-			Data:   nlenc.Bytes(""),
-		},
+	ae := netlink.NewAttributeEncoder()
+	ae.Nested(nl80211.AttrScanSsids, func(nae *netlink.AttributeEncoder) error {
+		ae.Bytes(nl80211.SchedScanMatchAttrSsid, []byte{})
+		return nil
 	})
-	if err != nil {
-		return nil, err
-	}
+	ae.Uint32(nl80211.AttrIfindex, uint32(ifi.Index))
 
-	attrs, err := netlink.MarshalAttributes([]netlink.Attribute{
-		{
-			Type:   nl80211.AttrScanSsids,
-			Nested: true,
-			Length: uint16(len(nestedAttrs)),
-			Data:   nestedAttrs,
-		},
-		{
-			Type: nl80211.AttrIfindex,
-			Data: nlenc.Uint32Bytes(uint32(ifi.Index)),
-		},
-	})
+	attrs, err := ae.Encode()
 	if err != nil {
 		return nil, err
 	}
