@@ -177,7 +177,7 @@ func (c *client) ScanAPs(ifi *Interface) ([]*BSS, error) {
 		Data: attrs,
 	}
 
-	flags := netlink.HeaderFlagsRequest | netlink.HeaderFlagsDump
+	flags := netlink.Request | netlink.Dump
 	msgs, err := c.c.Execute(req, c.familyID, flags)
 	if err != nil {
 		return nil, err
@@ -219,7 +219,7 @@ func (c *client) ScanAPs(ifi *Interface) ([]*BSS, error) {
 		Data: attrs,
 	}
 
-	flags = netlink.HeaderFlagsRequest | netlink.HeaderFlagsDump
+	flags = netlink.Request | netlink.Dump
 	msgs, err = c.c.Execute(req, c.familyID, flags)
 	if err != nil {
 		return nil, err
@@ -251,7 +251,7 @@ func (c *client) ScanAPs(ifi *Interface) ([]*BSS, error) {
 //		Data: b,
 //	}
 //
-//	flags := netlink.HeaderFlagsRequest
+//	flags := netlink.Request
 //}
 
 // StationInfo requests that nl80211 return all station info for the specified
