@@ -10,20 +10,19 @@ import (
 	"time"
 	"unicode/utf8"
 
+	"github.com/hasty/wifi/internal/nl80211"
 	"github.com/mdlayher/genetlink"
 	"github.com/mdlayher/netlink"
 	"github.com/mdlayher/netlink/nlenc"
-	"github.com/howardstark/wifi/internal/nl80211"
-
 )
 
 // Errors which may occur when interacting with generic netlink.
 var (
-	errMultipleMessages     	 = errors.New("expected only one generic netlink message")
-	errInvalidCommand       	 = errors.New("invalid generic netlink response command")
-	errInvalidFamilyVersion 	 = errors.New("invalid generic netlink response family version")
-	errMissingMulticastGroupScan	 = errors.New("scan multicast group unavailable")
-	errScanAborted 			 = errors.New("scan aborted")
+	errMultipleMessages          = errors.New("expected only one generic netlink message")
+	errInvalidCommand            = errors.New("invalid generic netlink response command")
+	errInvalidFamilyVersion      = errors.New("invalid generic netlink response family version")
+	errMissingMulticastGroupScan = errors.New("scan multicast group unavailable")
+	errScanAborted               = errors.New("scan aborted")
 )
 
 var _ osClient = &client{}
@@ -123,7 +122,6 @@ func (c *client) BSS(ifi *Interface) (*BSS, error) {
 	return parseBSS(msgs)
 }
 
-<<<<<<< HEAD
 func (c *client) ScanAPs(ifi *Interface) ([]*BSS, error) {
 	family, err := c.c.GetFamily(nl80211.GenlName)
 	if err != nil {
@@ -146,9 +144,9 @@ func (c *client) ScanAPs(ifi *Interface) ([]*BSS, error) {
 
 	nestedAttrs, err := netlink.MarshalAttributes([]netlink.Attribute{
 		{
-			Type: nl80211.SchedScanMatchAttrSsid,
+			Type:   nl80211.SchedScanMatchAttrSsid,
 			Length: 0,
-			Data: nlenc.Bytes(""),
+			Data:   nlenc.Bytes(""),
 		},
 	})
 	if err != nil {
@@ -157,10 +155,10 @@ func (c *client) ScanAPs(ifi *Interface) ([]*BSS, error) {
 
 	attrs, err := netlink.MarshalAttributes([]netlink.Attribute{
 		{
-			Type: nl80211.AttrScanSsids,
+			Type:   nl80211.AttrScanSsids,
 			Nested: true,
 			Length: uint16(len(nestedAttrs)),
-			Data: nestedAttrs,
+			Data:   nestedAttrs,
 		},
 		{
 			Type: nl80211.AttrIfindex,

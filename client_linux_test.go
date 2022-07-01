@@ -15,11 +15,11 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/hasty/wifi/internal/nl80211"
 	"github.com/mdlayher/genetlink"
 	"github.com/mdlayher/genetlink/genltest"
 	"github.com/mdlayher/netlink"
 	"github.com/mdlayher/netlink/nlenc"
-	"github.com/howardstark/wifi/internal/nl80211"
 )
 
 func TestLinux_clientInterfacesBadResponseCommand(t *testing.T) {
@@ -272,16 +272,16 @@ func TestLinux_clientScanAPOK(t *testing.T) {
 
 	want := []*BSS{
 		{
-			SSID: "Welcome",
-			BSSID: net.HardwareAddr{0x01, 0x18, 0x99, 0x98, 0x81, 0x99},
-			Frequency: 2462,
+			SSID:           "Welcome",
+			BSSID:          net.HardwareAddr{0x01, 0x18, 0x99, 0x98, 0x81, 0x99},
+			Frequency:      2462,
 			BeaconInterval: 100 * 1024 * time.Microsecond,
 			LastSeen:       10 * time.Second,
 		},
 		{
-			SSID: "吃了吗?",
-			BSSID: net.HardwareAddr{0x91, 0x19, 0x72, 0x53, 0x00, 0x00},
-			Frequency: 2462,
+			SSID:           "吃了吗?",
+			BSSID:          net.HardwareAddr{0x91, 0x19, 0x72, 0x53, 0x00, 0x00},
+			Frequency:      2462,
 			BeaconInterval: 100 * 1024 * time.Microsecond,
 			LastSeen:       10 * time.Second,
 		},
@@ -295,9 +295,9 @@ func TestLinux_clientScanAPOK(t *testing.T) {
 		func(greq genetlink.Message, nreq netlink.Message) ([]genetlink.Message, error) {
 			nestedAttrs, err := netlink.MarshalAttributes([]netlink.Attribute{
 				{
-					Type: nl80211.SchedScanMatchAttrSsid,
+					Type:   nl80211.SchedScanMatchAttrSsid,
 					Length: 0,
-					Data: nlenc.Bytes(""),
+					Data:   nlenc.Bytes(""),
 				},
 			})
 			if err != nil {
@@ -305,10 +305,10 @@ func TestLinux_clientScanAPOK(t *testing.T) {
 			}
 			expAttrs := []netlink.Attribute{
 				{
-					Type: nl80211.AttrScanSsids,
+					Type:   nl80211.AttrScanSsids,
 					Nested: true,
 					Length: uint16(len(nestedAttrs)),
-					Data: nestedAttrs,
+					Data:   nestedAttrs,
 				},
 				{
 					Type: nl80211.AttrIfindex,
