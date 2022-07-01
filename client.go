@@ -45,6 +45,11 @@ func (c *Client) BSS(ifi *Interface) (*BSS, error) {
 	return c.c.BSS(ifi)
 }
 
+// ScanAPs scans for local APs on a WiFi interface.
+func (c *Client) ScanAPs(ifi *Interface) ([]*BSS, error) {
+	return c.c.ScanAPs(ifi)
+}
+
 // StationInfo retrieves all station statistics about a WiFi interface.
 func (c *Client) StationInfo(ifi *Interface) ([]*StationInfo, error) {
 	return c.c.StationInfo(ifi)
@@ -55,5 +60,6 @@ type osClient interface {
 	Close() error
 	Interfaces() ([]*Interface, error)
 	BSS(ifi *Interface) (*BSS, error)
+	ScanAPs(ifi *Interface) ([]*BSS, error)
 	StationInfo(ifi *Interface) ([]*StationInfo, error)
 }

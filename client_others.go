@@ -27,6 +27,10 @@ func (c *client) BSS(ifi *Interface) (*BSS, error) {
 	return nil, errUnimplemented
 }
 
+func (c *client) ScanAPs(ifi *Interface) ([]*BSS, error) {
+	return nil, errUnimplemented
+}
+
 // StationInfo always returns an error.
 func (c *client) StationInfo(ifi *Interface) ([]*StationInfo, error) {
 	return nil, errUnimplemented

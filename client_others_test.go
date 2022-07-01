@@ -30,6 +30,11 @@ func TestOthers_clientUnimplemented(t *testing.T) {
 			want, got)
 	}
 
+	if _, got := c.ScanAPs(nil); want != got {
+		t.Fatalf("unexpected error during c.ScanAPs\n- want: %v\n-  got: %v",
+			want, got)
+	}
+
 	if got := c.Close(); want != got {
 		t.Fatalf("unexpected error during c.Close:\n- want: %v\n-  got: %v",
 			want, got)
